@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Attendance Management System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Header -->
+
+    <div class="card">
+
+        <h1>
+            📊 Attendance Management System
+        </h1>
+
+        <p class="subtitle">
+
+            Upload Attendance Excel File Then Search Employee
+
+        </p>
+
+        <!-- Upload -->
+
+        <div class="upload-box">
+
+            <input
+                type="file"
+                id="excelFile"
+                accept=".xlsx,.xls">
+
+        </div>
+
+        <!-- Statistics -->
+
+        <div class="stats">
+
+            <div class="stat-box">
+
+                <h2 id="sheetCount">0</h2>
+
+                <p>Sheets</p>
+
+            </div>
+
+            <div class="stat-box">
+
+                <h2 id="employeeCount">0</h2>
+
+                <p>Employees</p>
+
+            </div>
+
+            <div class="stat-box">
+
+                <h2 id="rowCount">0</h2>
+
+                <p>Attendance Days</p>
+
+            </div>
+
+        </div>
+
+        <!-- Search -->
+
+        <div class="search-section">
+
+            <input
+
+                id="employeeCode"
+
+                type="text"
+
+                placeholder="Enter Employee Code"
+
+            >
+
+            <button id="searchBtn">
+
+                Search
+
+            </button>
+
+        </div>
+
+        <!-- Employee Information -->
+
+        <div id="employeeCard" class="employee-card" style="display:none;">
+
+            <h2 id="empName">
+
+                Employee Name
+
+            </h2>
+
+            <div class="employee-info">
+
+                <div>
+
+                    <span>Employee ID</span>
+
+                    <strong id="empId"></strong>
+
+                </div>
+
+                <div>
+
+                    <span>Total Days</span>
+
+                    <strong id="empDays"></strong>
+
+                </div>
+
+                <div>
+
+                    <span>Total Overtime</span>
+
+                    <strong id="empOvertime"></strong>
+
+                </div>
+
+                <div>
+
+                    <span>Total Delay</span>
+
+                    <strong id="empDelay"></strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Attendance Table -->
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Date</th>
+
+                        <th>Day</th>
+
+                        <th>First In</th>
+
+                        <th>Last Out</th>
+
+                        <th>Delay</th>
+
+                        <th>Early Leave</th>
+
+                        <th>Morning OT</th>
+
+                        <th>Evening OT</th>
+
+                        <th>Working Hours</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="reportBody">
+
+                    <tr>
+
+                        <td colspan="9">
+
+                            Waiting For Excel File...
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Libraries -->
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+<!-- Project Files -->
+
+<script src="js/config.js"></script>
+
+<script src="js/utils.js"></script>
+
+<script src="js/parser.js"></script>
+
+<script src="js/attendance.js"></script>
+
+<script src="js/admin.js"></script>
+
+</body>
+
+  </html>
