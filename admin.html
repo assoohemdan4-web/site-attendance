@@ -1,49 +1,30 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-
-<meta charset="UTF-8">
-
-<title>
-رفع ملف الحضور
-</title>
-
-<link rel="stylesheet" href="css/style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الإدارة - رفع الحضور</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
-
 <body>
+    <div class="container">
+        <header>
+            <h1>لوحة الإدارة - معالجة ملفات البصمة</h1>
+            <a href="index.html" class="admin-link">العودة لصفحة البحث</a>
+        </header>
 
+        <main>
+            <div class="upload-section">
+                <input type="file" id="attendanceFile" accept=".csv, .txt">
+                <button id="processBtn">معالجة ورفع البيانات</button>
+            </div>
+            
+            <div id="statusMessage"></div>
+        </main>
+    </div>
 
-<h1>
-رفع ملف Excel
-</h1>
-
-
-<div class="card">
-
-
-<input 
-type="file"
-accept=".xlsx,.xls"
-onchange="uploadFile(event)"
->
-
-
-</div>
-
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
-
-<script src="js/config.js"></script>
-<script src="js/parser.js"></script>
-<script src="js/admin.js"></script>
-
-
+    <script src="js/config.js"></script>
+    <script src="js/parser.js"></script>
+    <script src="js/admin.js"></script>
 </body>
-
 </html>
