@@ -111,9 +111,7 @@ function analyzeDay(record){
 
     // سيتم الحساب في Part 2
 
-    result.status="Present";
-
-    return result;
+    return finalizeAttendance(result);
 
 }
 
