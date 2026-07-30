@@ -1,67 +1,18 @@
-function parseAttendanceSheet(
-attendance,
-employees
-){
-
-
-let result=[];
-
-
-
-employees.forEach(emp=>{
-
-
-let code =
-String(
-emp["الكود"] ||
-emp["ID"] ||
-""
-);
-
-
-
-let records =
-attendance.filter(row=>
-
-String(row.ID)==code
-
-);
-
-
-
-result.push({
-
-code:code,
-
-name:
-emp["الاسم"] || "",
-
-
-job:
-emp["الوظيفة"] || "",
-
-
-department:
-emp["القسم"] || "",
-
-
-records:records.map(r=>({
-
-date:r["date"] || "",
-
-time:r["time"] || ""
-
-}))
-
-
-});
-
-
-});
-
-
-
-return result;
-
-
+// js/parser.js
+class FileParser {
+    static parse(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const text = e.target.result;
+                // هنا سنكتب لاحقاً كود تحليل السطور بناءً على صيغة جهاز البصمة لديك
+                console.log("تمت قراءة الملف بنجاح");
+                resolve(text);
+            };
+            
+            reader.onerror = () => reject("حدث خطأ أثناء قراءة الملف");
+            reader.readAsText(file);
+        });
+    }
 }
