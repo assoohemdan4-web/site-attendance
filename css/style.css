@@ -1,58 +1,65 @@
-body{
-
-font-family:Tahoma;
-background:#f5f5f5;
-padding:30px;
-
+:root {
+    --primary-color: #2563eb;
+    --bg-color: #f8fafc;
+    --text-color: #1e293b;
+    --border-color: #e2e8f0;
 }
 
-
-h1{
-
-text-align:center;
-
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
 }
 
-
-.card{
-
-background:white;
-padding:20px;
-margin:20px auto;
-max-width:500px;
-border-radius:10px;
-
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-
-input,button{
-
-padding:10px;
-margin:5px;
-
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 20px;
+    margin-bottom: 30px;
 }
 
-
-button{
-
-cursor:pointer;
-
+.search-section, .upload-section {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
 }
 
-
-table{
-
-width:90%;
-margin:auto;
-background:white;
-border-collapse:collapse;
-
+input[type="text"], input[type="file"] {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 16px;
 }
 
+button {
+    padding: 12px 24px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
 
-td,th{
+button:hover {
+    background-color: #1d4ed8;
+}
 
-border:1px solid #ddd;
-padding:8px;
-
+.hidden {
+    display: none;
 }
