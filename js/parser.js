@@ -1,223 +1,67 @@
-/* ==========================================
-   Attendance Management System
-   parser.js
-========================================== */
+function parseAttendanceSheet(
+attendance,
+employees
+){
 
-"use strict";
 
-/* ==========================================
-   Global Data
-========================================== */
+let result=[];
 
-let attendanceData = {};
 
-/* ==========================================
-   Parse Attendance Sheet
-========================================== */
 
-function parseAttendanceSheet(sheet){
+employees.forEach(emp=>{
 
-    attendanceData = {};
 
-    const rows = XLSX.utils.sheet_to_json(sheet,{
+let code =
+String(
+emp["الكود"] ||
+emp["ID"] ||
+""
+);
 
-        header:1,
 
-        raw:true,
 
-        defval:""
+let records =
+attendance.filter(row=>
 
-    });
+String(row.ID)==code
 
-    if(rows.length < 2){
+);
 
-        return attendanceData;
 
-    }
 
-    // رؤوس الأعمدة
-    const headers = rows[0].map(h => safeString(h));
+result.push({
 
-    const idIndex =
-        headers.indexOf(CONFIG.COLUMNS.employeeId);
+code:code,
 
-    const nameIndex =
-        headers.indexOf(CONFIG.COLUMNS.employeeName);
+name:
+emp["الاسم"] || "",
 
-    const dateIndex =
-        headers.indexOf(CONFIG.COLUMNS.dateTime);
 
-    if(idIndex === -1 ||
-       nameIndex === -1 ||
-       dateIndex === -1){
+job:
+emp["الوظيفة"] || "",
 
-        alert("Required columns not found.");
 
-        return attendanceData;
+department:
+emp["القسم"] || "",
 
-    }
 
-    // قراءة البيانات
-    for(let i=1;i<rows.length;i++){
+records:records.map(r=>({
 
-        const row = rows[i];
+date:r["date"] || "",
 
-        if(row.length===0) continue;
+time:r["time"] || ""
 
-        const employeeId =
-            safeString(row[idIndex]);
+}))
 
-        if(employeeId==="") continue;
 
-        const employeeName =
-            safeString(row[nameIndex]);
+});
 
-        const dateObject =
-            excelToDate(row[dateIndex]);
 
-        if(!dateObject) continue;
+});
 
-        const isoDate =
-            formatISODate(dateObject);
 
-        const date =
-            formatDate(dateObject);
 
-        const time =
-            formatTime(dateObject);
+return result;
 
-        const day =
-            getDayName(dateObject);
-
-        // إنشاء الموظف
-
-        if(!attendanceData[employeeId]){
-
-            attendanceData[employeeId]={
-
-                employeeId:employeeId,
-
-                employeeName:employeeName,
-
-                records:{}
-
-            };
-
-        }
-
-        // إنشاء اليوم
-
-        if(!attendanceData[employeeId].records[isoDate]){
-
-            attendanceData[employeeId].records[isoDate]={
-
-                date:date,
-
-                isoDate:isoDate,
-
-                day:day,
-
-                punches:[]
-
-            };
-
-        }
-
-        // إضافة البصمة
-
-        attendanceData[employeeId]
-            .records[isoDate]
-            .punches
-            .push(time);
-
-    }
-
-    // ترتيب البصمات
-
-    Object.values(attendanceData).forEach(employee=>{
-
-        Object.values(employee.records).forEach(record=>{
-
-            record.punches.sort((a,b)=>{
-
-                return timeToMinutes(a)-timeToMinutes(b);
-
-            });
-
-        });
-
-    });
-
-    console.log(attendanceData);
-
-    return attendanceData;
 
 }
-
-/* ==========================================
-   Employees Count
-========================================== */
-
-function getEmployeesCount(){
-
-    return Object.keys(attendanceData).length;
-
-}
-
-/* ==========================================
-   Attendance Days Count
-========================================== */
-
-function getRecordsCount(){
-
-    let total=0;
-
-    Object.values(attendanceData).forEach(employee=>{
-
-        total += Object.keys(employee.records).length;
-
-    });
-
-    return total;
-
-}
-
-/* ==========================================
-   Search Employee
-========================================== */
-
-function getEmployee(employeeId){
-
-    return attendanceData[employeeId] || null;
-
-}
-
-/* ==========================================
-   Search By Name
-========================================== */
-
-function findEmployee(name){
-
-    name = safeString(name).toLowerCase();
-
-    return Object.values(attendanceData).find(emp=>{
-
-        return emp.employeeName
-            .toLowerCase()
-            .includes(name);
-
-    });
-
-}
-
-/* ==========================================
-   Print Debug
-========================================== */
-
-function printAttendance(){
-
-    console.table(attendanceData);
-
-}
-
-console.log("✅ parser.js Loaded");
