@@ -1,95 +1,22 @@
-function uploadFile(event){
+// js/admin.js
+document.addEventListener('DOMContentLoaded', () => {
+    const processBtn = document.getElementById('processBtn');
+    const fileInput = document.getElementById('attendanceFile');
+    const statusMsg = document.getElementById('statusMessage');
 
+    processBtn.addEventListener('click', async () => {
+        if (!fileInput.files.length) {
+            statusMsg.textContent = "الرجاء اختيار ملف أولاً.";
+            return;
+        }
 
-const file = event.target.files[0];
-
-
-if(!file)return;
-
-
-
-const reader = new FileReader();
-
-
-
-reader.onload=function(e){
-
-
-const workbook = XLSX.read(
-new Uint8Array(e.target.result),
-{
-type:"array"
-}
-);
-
-
-
-const attendanceSheet =
-workbook.Sheets["السحب"];
-
-
-const dataSheet =
-workbook.Sheets["داتا"];
-
-
-
-if(!attendanceSheet){
-
-alert("لا يوجد شيت السحب");
-
-return;
-
-}
-
-
-
-const attendanceRaw =
-XLSX.utils.sheet_to_json(
-attendanceSheet,
-{
-defval:""
-}
-);
-
-
-
-const employeesRaw =
-XLSX.utils.sheet_to_json(
-dataSheet,
-{
-defval:""
-}
-);
-
-
-
-attendanceData =
-parseAttendanceSheet(
-attendanceRaw,
-employeesRaw
-);
-
-
-
-localStorage.setItem(
-"attendanceData",
-JSON.stringify(attendanceData)
-);
-
-
-
-alert(
-"تم تحميل الملف بنجاح"
-);
-
-
-
-}
-
-
-
-reader.readAsArrayBuffer(file);
-
-
-
-}
+        try {
+            statusMsg.textContent = "جاري المعالجة...";
+            const rawData = await FileParser.parse(fileInput.files[0]);
+            // سيتم إرسال rawData إلى Google Apps Script لاحقاً
+            statusMsg.textContent = "تمت معالجة البيانات بنجاح!";
+        } catch (error) {
+            statusMsg.textContent = error;
+        }
+    });
+});
