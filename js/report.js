@@ -1,68 +1,35 @@
-function renderEmployee(emp){
+// js/report.js
+class ReportGenerator {
+    static render(records, containerId) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        container.classList.remove('hidden');
 
+        if (!records || records.length === 0) {
+            container.innerHTML = `<p>${CONFIG.MESSAGES.notFound}</p>`;
+            return;
+        }
 
-let html = `
+        // إنشاء الجدول
+        let html = `<table border="1" width="100%" style="border-collapse: collapse; text-align: center;">
+            <tr>
+                <th>التاريخ</th>
+                <th>وقت الدخول</th>
+                <th>وقت الخروج</th>
+                <th>الحالة</th>
+            </tr>`;
 
-<div class="card">
+        records.forEach(record => {
+            html += `
+            <tr>
+                <td>${record.date}</td>
+                <td>${record.checkIn}</td>
+                <td>${record.checkOut}</td>
+                <td>${record.status}</td>
+            </tr>`;
+        });
 
-<h2>
-${emp.name}
-</h2>
-
-
-<p>
-الكود: ${emp.code}
-</p>
-
-
-<p>
-الوظيفة: ${emp.job}
-</p>
-
-
-<table>
-
-<tr>
-<th>
-التاريخ
-</th>
-
-<th>
-الوقت
-</th>
-
-</tr>
-
-
-${
-
-emp.records.map(r=>`
-
-<tr>
-
-<td>${r.date}</td>
-
-<td>${r.time}</td>
-
-</tr>
-
-`).join("")
-
-}
-
-
-</table>
-
-
-</div>
-
-`;
-
-
-
-document.getElementById(
-"result"
-).innerHTML=html;
-
-
+        html += `</table>`;
+        container.innerHTML = html;
+    }
 }
