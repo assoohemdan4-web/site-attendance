@@ -1,96 +1,95 @@
-/**
- * Admin Module
- * مسؤول عن رفع ملف Excel وتجهيز بيانات الحضور
- */
+function uploadFile(event){
 
 
-function uploadAttendanceFile(event) {
-
-    const file = event.target.files[0];
+const file = event.target.files[0];
 
 
-    // التحقق من وجود ملف
-    if (!file) {
-
-        alert("لم يتم اختيار ملف");
-
-        return;
-    }
-
-
-    // قراءة ملف Excel
-    const reader = new FileReader();
-
-
-    reader.onload = function(e) {
-
-
-        const data = new Uint8Array(e.target.result);
-
-
-        // تحويل الملف إلى Workbook
-        const workbook = XLSX.read(data, {
-            type: "array"
-        });
+if(!file)return;
 
 
 
-        // التأكد من وجود Sheet السحب
-        const sheetName = "السحب";
-
-
-        if (!workbook.Sheets[sheetName]) {
-
-            alert("لم يتم العثور على شيت السحب");
-
-            return;
-        }
+const reader = new FileReader();
 
 
 
-        // جلب الشيت
-        const worksheet = workbook.Sheets[sheetName];
+reader.onload=function(e){
+
+
+const workbook = XLSX.read(
+new Uint8Array(e.target.result),
+{
+type:"array"
+}
+);
 
 
 
-        // تحويل الشيت إلى بيانات خام
-        const rawData = XLSX.utils.sheet_to_json(
-            worksheet,
-            {
-                defval: ""
-            }
-        );
+const attendanceSheet =
+workbook.Sheets["السحب"];
+
+
+const dataSheet =
+workbook.Sheets["داتا"];
 
 
 
-        // إرسال البيانات إلى Parser
-        attendanceData = parseAttendanceSheet(rawData);
+if(!attendanceSheet){
+
+alert("لا يوجد شيت السحب");
+
+return;
+
+}
 
 
 
-        console.log(
-            "Attendance Loaded:",
-            attendanceData
-        );
+const attendanceRaw =
+XLSX.utils.sheet_to_json(
+attendanceSheet,
+{
+defval:""
+}
+);
 
 
 
-        alert(
-            `تم تحميل ${attendanceData.length} موظف بنجاح`
-        );
-
-
-        // تحديث الواجهة لو موجودة
-        if (typeof refreshDashboard === "function") {
-
-            refreshDashboard();
-
-        }
-
-    };
+const employeesRaw =
+XLSX.utils.sheet_to_json(
+dataSheet,
+{
+defval:""
+}
+);
 
 
 
-    reader.readAsArrayBuffer(file);
+attendanceData =
+parseAttendanceSheet(
+attendanceRaw,
+employeesRaw
+);
+
+
+
+localStorage.setItem(
+"attendanceData",
+JSON.stringify(attendanceData)
+);
+
+
+
+alert(
+"تم تحميل الملف بنجاح"
+);
+
+
+
+}
+
+
+
+reader.readAsArrayBuffer(file);
+
+
 
 }
