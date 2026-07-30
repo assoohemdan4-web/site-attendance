@@ -227,17 +227,24 @@ function finalizeAttendance(result){
    التأخير
 ========================================== */
 
-function calculateDelay(firstIn,startTime){
+function calculateDelay(firstIn,startTime,allowance){
 
-    const delay =
+    let delay =
         timeToMinutes(firstIn) -
         timeToMinutes(startTime);
 
-    if(delay <= 0){
+    delay -= allowance;
+
+    if(delay<=0){
 
         return "00:00";
 
     }
+
+    return minutesToTime(delay);
+
+}
+
 
     return minutesToTime(delay);
 
