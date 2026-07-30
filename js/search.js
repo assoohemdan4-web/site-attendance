@@ -1,42 +1,11 @@
-function searchEmployee(){
-
-
-let data =
-JSON.parse(
-localStorage.getItem("attendanceData")
-)
-||
-[];
-
-
-
-let code =
-document.getElementById(
-"employeeCode"
-).value;
-
-
-
-let employee =
-data.find(e=>
-
-String(e.code)==String(code)
-
-);
-
-
-
-if(!employee){
-
-alert("الموظف غير موجود");
-
-return;
-
-}
-
-
-
-renderEmployee(employee);
-
-
+// js/search.js
+class AttendanceSearch {
+    static async getRecords(employeeCode) {
+        // سيتم ربط هذا الجزء بالـ API (Google Apps Script) لجلب البيانات
+        // هذا مجرد نموذج مؤقت للتجربة
+        console.log(`جاري البحث عن الكود: ${employeeCode}`);
+        return [
+            { date: '2026-07-01', checkIn: '08:00 AM', checkOut: '05:00 PM', status: 'حضور' }
+        ];
+    }
 }
