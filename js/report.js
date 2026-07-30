@@ -1,179 +1,68 @@
-/* ==========================================
-   Attendance Management System
-   report.js
-========================================== */
+function renderEmployee(emp){
 
-"use strict";
 
-/* ==========================================
-   عرض بيانات الموظف
-========================================== */
+let html = `
 
-function renderEmployee(employee, report){
+<div class="card">
 
-    if(!employee){
+<h2>
+${emp.name}
+</h2>
 
-        hideEmployeeCard();
 
-        showEmptyTable();
+<p>
+الكود: ${emp.code}
+</p>
 
-        return;
 
-    }
+<p>
+الوظيفة: ${emp.job}
+</p>
 
-    document.getElementById("employeeCard").style.display="block";
 
-    document.getElementById("empId").textContent=
-        employee.employeeId;
-
-    document.getElementById("empName").textContent=
-        employee.employeeName;
-
-    document.getElementById("empDays").textContent=
-        report.length;
-
-    document.getElementById("empOvertime").textContent=
-        calculateTotalOT(report);
-
-    document.getElementById("empDelay").textContent=
-        calculateTotalDelay(report);
-
-    renderTable(report);
-
-}
-
-/* ==========================================
-   إنشاء الجدول
-========================================== */
-
-function renderTable(report){
-
-    const body =
-        document.getElementById("reportBody");
-
-    body.innerHTML="";
-
-    if(report.length===0){
-
-        showEmptyTable();
-
-        return;
-
-    }
-
-    report.forEach(day=>{
-
-        body.innerHTML += createRow(day);
-
-    });
-
-}
-
-/* ==========================================
-   صف واحد
-========================================== */
-
-function createRow(day){
-
-    return `
+<table>
 
 <tr>
+<th>
+التاريخ
+</th>
 
-<td>${day.date}</td>
-
-<td>${day.day}</td>
-
-<td>${day.firstIn}</td>
-
-<td>${day.lastOut}</td>
-
-<td>${day.delay}</td>
-
-<td>${day.earlyLeave}</td>
-
-<td>${day.morningOT}</td>
-
-<td>${day.eveningOT}</td>
-
-<td>${day.workingHours}</td>
+<th>
+الوقت
+</th>
 
 </tr>
 
+
+${
+
+emp.records.map(r=>`
+
+<tr>
+
+<td>${r.date}</td>
+
+<td>${r.time}</td>
+
+</tr>
+
+`).join("")
+
+}
+
+
+</table>
+
+
+</div>
+
 `;
 
-}
 
-/* ==========================================
-   جدول فارغ
-========================================== */
 
-function showEmptyTable(){
+document.getElementById(
+"result"
+).innerHTML=html;
 
-    document.getElementById("reportBody").innerHTML=
-
-    `
-    <tr>
-
-        <td colspan="9">
-
-            No Attendance Data
-
-        </td>
-
-    </tr>
-
-    `;
 
 }
-
-/* ==========================================
-   إخفاء بطاقة الموظف
-========================================== */
-
-function hideEmployeeCard(){
-
-    document.getElementById("employeeCard").style.display="none";
-
-}
-
-/* ==========================================
-   إجمالي التأخير
-========================================== */
-
-function calculateTotalDelay(report){
-
-    let total=0;
-
-    report.forEach(day=>{
-
-        total += timeToMinutes(day.delay);
-
-    });
-
-    return minutesToTime(total);
-
-}
-
-/* ==========================================
-   إجمالي الإضافي
-========================================== */
-
-function calculateTotalOT(report){
-
-    let total=0;
-
-    report.forEach(day=>{
-
-        total +=
-            timeToMinutes(day.morningOT);
-
-        total +=
-            timeToMinutes(day.eveningOT);
-
-    });
-
-    return minutesToTime(total);
-
-}
-
-console.log("✅ report.js Loaded");
