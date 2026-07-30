@@ -1,79 +1,42 @@
-/**
- * Employee Search Module
- * مسؤول عن البحث عن الموظف وعرض تقريره
- */
+function searchEmployee(){
 
 
-function searchEmployee() {
-
-    // جلب كود الموظف من مربع البحث
-    const employeeCode = document
-        .getElementById("employeeSearch")
-        .value
-        .trim();
-
-
-    // التحقق من إدخال الكود
-    if (!employeeCode) {
-
-        alert("من فضلك أدخل كود الموظف");
-
-        return;
-    }
+let data =
+JSON.parse(
+localStorage.getItem("attendanceData")
+)
+||
+[];
 
 
-    // التأكد أن البيانات موجودة
-    if (!window.attendanceData || attendanceData.length === 0) {
 
-        alert("لا توجد بيانات حضور");
-
-        return;
-    }
+let code =
+document.getElementById(
+"employeeCode"
+).value;
 
 
-    // البحث عن الموظف
-    const employee = attendanceData.find(emp => {
 
-        return String(emp.code) === String(employeeCode);
+let employee =
+data.find(e=>
 
-    });
+String(e.code)==String(code)
 
-
-    // لو الموظف غير موجود
-    if (!employee) {
-
-        alert("لم يتم العثور على الموظف");
-
-        return;
-    }
+);
 
 
-    // تحليل بيانات الموظف
-    const analysis = analyzeEmployee(employee);
 
+if(!employee){
 
-    // عرض التقرير
-    renderEmployee(analysis);
+alert("الموظف غير موجود");
+
+return;
 
 }
 
 
 
-// تشغيل البحث عند الضغط Enter
-document.addEventListener(
-    "keydown",
-    function(event) {
+renderEmployee(employee);
 
-        if (event.key === "Enter") {
 
-            const input = document.getElementById("employeeSearch");
-
-            if (document.activeElement === input) {
-
-                searchEmployee();
-
-            }
-        }
-
-    }
-);
+}
